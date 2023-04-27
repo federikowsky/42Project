@@ -1,0 +1,31 @@
+COMANDI CHE DEVONO FUNZIONARE MA NON VENGONO GESTITI:
+X -> non gestito
+V -> gestito
+
+V ()
+V ((ls))
+V ps | grep mini && echo ciao | grep c
+V ls | ps && echo ciao | grep c && ps | grep bash
+
+V ps | grep mini || echo ciao | grep ciao | grep c && ls
+V ps || ps | grep mini | wc -l && ls 
+
+V echo ciao && ps && ls && echo ciao || ps
+
+// La EXECVE non returna errore settando exitstatus = 0
+X ec && ps && ls || echo ciao && ps
+X ls | ps && echo ciao && p || echo bella
+
+// ft_bracket_aux da sistemare
+X (echo ciao | grep c)
+X (echo ciao)
+
+
+X ps | > ls && echo ciao
+X ps | > f1 echo ciao
+
+X echo ciao && echo bella && echo come || echo che && ls && echo " ciao ' lsls " ' ' "    '   lllll ' "
+
+export ciao="dio cane" bella="porco dio"
+
+ls so*s incl****sp ut*
