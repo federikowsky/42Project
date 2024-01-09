@@ -1,0 +1,54 @@
+input: Appuntamento dal dentista alle 10:00
+output:[ 
+ soggetto: io,
+ evento: appuntamento,
+ oggetto: dentista,
+ luogo: studio,
+ data: 10:00
+]
+
+input: Pagare le bollette entro venerdì
+output:[ 
+ soggetto: io,
+ evento: pagamento,
+ oggetto: bollette,
+ data: venerdi
+]
+input: Completare la presentazione per lunedì mattina
+output:[ 
+ soggetto: io,
+ evento: completamento,
+ oggetto: presentazione,
+ data: lunedi mattina
+]
+
+input: Chiamare la nonna per il suo compleanno
+output:[ 
+ soggetto: io,
+ evento: compleanno,
+ oggetto: nonna,
+]
+
+input: Riunioni di lavoro alle 14:00 e alle 16:00
+output:[ 
+ soggetto: io,
+ evento: riunioni,
+ oggetto: lavoro,
+ data: 14:00, 16:00
+]
+
+input: Ritirare la biancheria pulita dalla lavanderia
+output:[ 
+ soggetto: io,
+ evento: ritiro,
+ oggetto: biancheria,
+ luogo: lavanderia
+]
+
+input: Comprare il latte e il pane al supermercato
+output:[ 
+ soggetto: io,
+ evento: acquisto,
+ oggetto: latte, pane,
+ luogo: supermercato
+]
