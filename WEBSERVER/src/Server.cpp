@@ -30,22 +30,25 @@ std::vector<std::string> Server::server_blocks(string const &file_content)
 	while (std::getline(file_stream, line))
 	{
 		// Ignorare le linee di commento e vuote
-		if (!line.empty() && line.find('#') != 0)
+		if (!line.empty() && line.find('#') == string::npos)
 		{
 			// Trovato un inizio di blocco server
-			if (line.find("server {") != std::string::npos)
+			if (line.find("server {") != string::npos)
 			{
 				std::string server_block = "server {\n";
 				int brace_count = 1; // Contatore per tracciare le graffe aperte e chiuse
 
 				// Continua a leggere fino a quando non si trovano tutte le graffe chiuse
-				while (std::getline(file_stream, line) && brace_count > 0)
+				while (brace_count > 0 && std::getline(file_stream, line))
 				{
-					server_block += line + "\n";
+					if (!line.empty() && line.find('#') == string::npos)
+					{
+						server_block += line + "\n";
 
-					// Aggiorna il contatore delle graffe
-					brace_count += std::count(line.begin(), line.end(), '{');
-					brace_count -= std::count(line.begin(), line.end(), '}');
+						// Aggiorna il contatore delle graffe
+						brace_count += std::count(line.begin(), line.end(), '{');
+						brace_count -= std::count(line.begin(), line.end(), '}');
+					}
 				}
 
 				server_blocks.push_back(server_block);
@@ -244,12 +247,7 @@ void Server::set_socket(string config_block)
 
 	parser.set_file_content(config_block);
 	sockfd_map[sockfd] = parser;
-
-#ifdef __APPLE__
-	port = atoi(parser.get_conf_param("server", "mac_listen").c_str());
-#else
 	port = atoi(parser.get_conf_param("server", "listen").c_str());
-#endif
 
 	// set socket to be reusable
 	if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &reusable, sizeof(reusable)) == -1)

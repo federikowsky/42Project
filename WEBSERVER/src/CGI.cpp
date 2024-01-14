@@ -158,12 +158,8 @@ string CGI::exec_cgi()
         dup2(child_to_parent_pipefd[1], STDOUT_FILENO);
         // close the write end of the pipe
         close(child_to_parent_pipefd[1]);
-// printf("execve: %s\n", requestedPath);
-#ifdef __APPLE__
-        execve(cgi_req_pt->parser->get_conf_param("server", "mac_php_cgi").c_str(), args, env);
-#else
-        execve(cgi_req_pt->parser->get_conf_param("server", "php_cgi_bin_path").c_str(), args, env);
-#endif
+        // printf("execve: %s\n", requestedPath);
+        execve(args[0], args, env);
         perror("execve");
         exit(EXIT_FAILURE);
     }
