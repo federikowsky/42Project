@@ -18,7 +18,6 @@ char **env_get(Request *cgi_req_pt)
     cgi_req_pt->erase_string(path, "?" + query);
     ss << query.length();
 
-
     if (cgi_req_pt->get_req_param("Content-Type") == "")
         env[0] = strdup("CONTENT_TYPE=application/x-www-form-urlencoded");
     else
@@ -33,7 +32,8 @@ char **env_get(Request *cgi_req_pt)
     env[8] = strdup(("HTTP_ACCEPT=" + cgi_req_pt->get_req_param("Accept")).c_str());
     env[9] = strdup(("PATH_INFO=" + path).c_str());
     env[10] = strdup(("GATEWAY_INTERFACE=CGI/1.1"));
-    env[11] = strdup(("CGI_GET_DATA=" + query).c_str());;
+    env[11] = strdup(("CGI_GET_DATA=" + query).c_str());
+    ;
     env[12] = NULL;
     return env;
 }
@@ -54,7 +54,8 @@ char **env_post(Request *cgi_req_pt)
     env[8] = strdup(("HTTP_ACCEPT=" + cgi_req_pt->get_req_param("Accept")).c_str());
     env[9] = strdup(("PATH_INFO=" + cgi_req_pt->get_req_param("path")).c_str());
     env[10] = strdup(("GATEWAY_INTERFACE=CGI/1.1"));
-    env[11] = strdup(("CGI_POST_DATA=" + cgi_req_pt->get_req_param("body")).c_str());;
+    env[11] = strdup(("CGI_POST_DATA=" + cgi_req_pt->get_req_param("body")).c_str());
+    ;
     env[12] = NULL;
     return env;
 }
@@ -212,8 +213,7 @@ string CGI::parse_cgi_response()
     if (header.find("Status") != string::npos)
         response << "HTTP/1.1 " << header.substr(header.find("Status") + 8, header.find("\r\n") - header.find("Status") - 8) << "\r\n";
     else
-        response << "HTTP/1.1 200 OK"
-                 << "\r\n";
+        response << "HTTP/1.1 200 OK" << "\r\n";
     response << "Date: " << timeBuffer << "\r\n";
     response << "Server: MyServer\r\n";
     if (header.find("Content-type") != string::npos)

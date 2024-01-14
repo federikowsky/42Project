@@ -255,7 +255,7 @@ string Request::Get()
     if (parser->get_conf_param(location, "method") != "" && parser->get_conf_param(location, "method") != "GET")
         return get_response(405, parser->get_conf_param("server", "405"));
 
-    // se nel config file é settato il parametro cgi a on allora esegue il cgi, altrimenti se il file richiesto é un file php esegue il cgi
+    // se nel config file é settato il parametro cgi a on o se il file richiesto é un file php esegue il cgi
     if (parser->get_conf_param(location, "cgi") == "on" || path.find(".php") != string::npos)
     {
         CGI cgi(this);
@@ -278,7 +278,7 @@ string Request::Get()
 
     // if (location + parser->get_conf_param(location, "index") == path)
     file_requested.erase(0, location.length());
-    if (parser->entry_conf_exist(location, file_requested) != "")
+    if (parser->entry_conf_exist(location, file_requested) != "" && file_exist(parser->get_root() + path))
         return get_response(200, path);
     
     return get_response(404, parser->get_conf_param("server", "404"));
