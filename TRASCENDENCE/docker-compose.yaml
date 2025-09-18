@@ -1,0 +1,62 @@
+version: "3"
+
+networks:
+  trans_network:
+    name: trans_network
+
+
+services:
+  backend_container:
+    container_name: backend_container
+    build: ./app
+    image: backend_image
+    ports:
+     - "8000:8000"
+    depends_on:
+      postgres_container:
+        condition: service_healthy
+    networks:
+      - trans_network
+    restart: always
+
+
+  postgres_container:
+    container_name: postgres_container
+    volumes:
+      - './db/data:/var/lib/postgresql/data'
+    build: ./db
+    image: postgres_image
+    ports:
+     - "5432:5432"    
+    networks:
+      - trans_network
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5    
+
+  waf_container:
+    container_name: waf_container
+    build: ./waf
+    image: waf_container
+    ports:
+     - "443:443"
+    depends_on:
+      - postgres_container
+    networks:
+      - trans_network
+    restart: always
+
+  adminer_container:
+    container_name: adminer_container
+    build: ./adminer
+    image: adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend_container
+    networks:
+      - trans_network
+    restart: always
